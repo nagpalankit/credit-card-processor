@@ -4,7 +4,6 @@ import io.github.nagpalankit.creditcardprocessor.model.CreditCard;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 
 import java.util.List;
 
@@ -15,23 +14,21 @@ class CreditCardRepositoryTest {
     @Autowired
     private CreditCardRepository creditCardRepository;
 
-    @Autowired
-    private TestEntityManager testEntityManager;
-
     @Test
-    void testSaveAndFind() {
+    void creditCardIsSavedAndRetrieved() {
         CreditCard creditCard = new CreditCard(
                 "nagpalankit",
                 "1234-5678-9012-3456",
                 5000.00,
                 0.00);
-        testEntityManager.persist(creditCard);
-        testEntityManager.flush();
+        creditCardRepository.save(creditCard);
 
         List<CreditCard> savedCreditCards = creditCardRepository.findAll();
 
         assertThat(savedCreditCards).isNotNull();
         assertThat(savedCreditCards).hasSize(1);
+        assertThat(savedCreditCards.getFirst()).isNotNull();
+        assertThat(savedCreditCards.getFirst().getId()).isNotNull();
         assertThat(savedCreditCards.getFirst().getUserName()).isEqualTo(creditCard.getUserName());
         assertThat(savedCreditCards.getFirst().getCardNumber()).isEqualTo(creditCard.getCardNumber());
         assertThat(savedCreditCards.getFirst().getCardLimit()).isEqualTo(creditCard.getCardLimit());

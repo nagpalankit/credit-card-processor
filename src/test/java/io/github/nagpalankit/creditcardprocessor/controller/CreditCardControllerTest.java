@@ -1,6 +1,7 @@
 package io.github.nagpalankit.creditcardprocessor.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.github.nagpalankit.creditcardprocessor.model.CreditCard;
 import io.github.nagpalankit.creditcardprocessor.model.CreditCardDraft;
 import io.github.nagpalankit.creditcardprocessor.repository.CreditCardRepository;
 import org.junit.jupiter.api.Test;
@@ -13,11 +14,9 @@ import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.never;
-import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest
 class CreditCardControllerTest {
@@ -26,6 +25,9 @@ class CreditCardControllerTest {
 
     @MockitoBean
     private CreditCardRepository creditCardRepository;
+
+    @MockitoBean
+    private CreditCard mockedCreditCard;
 
     @Test
     void getAllCardsIsSuccessful() throws Exception {
@@ -37,6 +39,8 @@ class CreditCardControllerTest {
 
     @Test
     void saveNewCardIsSuccessful() throws Exception {
+        when(creditCardRepository.save(any())).thenReturn(mockedCreditCard);
+        when(mockedCreditCard.getId()).thenReturn(1L);
         RequestBuilder saveNewCardRequest = MockMvcRequestBuilders
                 .post("/cards")
                 .content(new ObjectMapper()
@@ -49,9 +53,10 @@ class CreditCardControllerTest {
                         )
                 )
                 .contentType(MediaType.APPLICATION_JSON);
+
         mockMvc.perform(saveNewCardRequest)
-                .andExpect(status().isCreated());
-        verify(creditCardRepository).save(any());
+                .andExpect(status().isCreated())
+                .andExpect(header().exists("Location"));
     }
 
     @Test

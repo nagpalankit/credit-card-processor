@@ -1,6 +1,7 @@
 package io.github.nagpalankit.creditcardprocessor;
 
 import io.github.nagpalankit.creditcardprocessor.model.CreditCard;
+import io.github.nagpalankit.creditcardprocessor.model.CreditCardDraft;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -30,19 +31,24 @@ class IntegrationTests {
         assertThat(getCardsResponse.getBody()).isEmpty();
 
         // Add a card
-        CreditCard newCard = new CreditCard(
+        CreditCardDraft newCard = new CreditCardDraft(
                 "nagpalankit",
                 "4417-1234-5678-9113",
-                5000.00,
-                0.00
+                5000.00
         );
-        ResponseEntity<Void> addCardResponse = this.restTemplate.postForEntity(apiUrl, newCard, Void.class);
+        ResponseEntity<CreditCard> addCardResponse = this.restTemplate.postForEntity(apiUrl, newCard, CreditCard.class);
         assertThat(addCardResponse.getStatusCode().value()).isEqualTo(201);
+        assertThat(addCardResponse.getHeaders().getLocation()).isNotNull();
+        assertThat(addCardResponse.getBody()).isNotNull();
+        assertThat(addCardResponse.getBody().getId()).isNotNull();
+        assertThat(addCardResponse.getHeaders().getLocation().toString()).isEqualTo(apiUrl + "/" + addCardResponse.getBody().getId());
+        assertThat(addCardResponse.getBody().getUserName()).isEqualTo("nagpalankit");
 
         // Verify one card is present
         ResponseEntity<CreditCard[]> secondGetCardsResponse = this.restTemplate.getForEntity(apiUrl, CreditCard[].class);
         assertThat(secondGetCardsResponse.getStatusCode().value()).isEqualTo(200);
+        assertThat(secondGetCardsResponse.getBody()).isNotEmpty();
         assertThat(secondGetCardsResponse.getBody()).hasSize(1);
-        assertThat(secondGetCardsResponse.getBody()[0].getUserName()).isEqualTo("nagpalankit");
+        assertThat(secondGetCardsResponse.getBody()[0].getId()).isEqualTo(addCardResponse.getBody().getId());
     }
 }

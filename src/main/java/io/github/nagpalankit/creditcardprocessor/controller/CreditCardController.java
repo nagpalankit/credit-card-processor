@@ -1,5 +1,6 @@
 package io.github.nagpalankit.creditcardprocessor.controller;
 
+import io.github.nagpalankit.creditcardprocessor.model.ApiBadRequestError;
 import io.github.nagpalankit.creditcardprocessor.model.CreditCard;
 import io.github.nagpalankit.creditcardprocessor.model.CreditCardDraft;
 import io.github.nagpalankit.creditcardprocessor.repository.CreditCardRepository;
@@ -20,14 +21,12 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import java.net.URI;
 import java.util.List;
 
+import static io.github.nagpalankit.creditcardprocessor.constant.OpenApiDocumentationConstants.*;
 import static org.springframework.http.HttpStatus.CREATED;
 
 @Tag(name = "cards", description = "Credit card management operations")
 @RestController
 public class CreditCardController {
-    private final static String CREDIT_CARD_EXAMPLE_OBJECT = "{ \"id\": 1, \"userName\": \"John Doe\", \"cardNumber\": \"4417123456789113\", \"cardLimit\": 5000, \"remainingBalance\": 0 }";
-    private final static String CREDIT_CARD_DRAFT_EXAMPLE_OBJECT = "{ \"userName\": \"John Doe\", \"cardNumber\": \"4417123456789113\", \"cardLimit\": 5000 }";
-
     @Autowired
     private CreditCardRepository creditCardRepository;
 
@@ -57,11 +56,17 @@ public class CreditCardController {
                     @ApiResponse(
                             responseCode = "201",
                             description = "Card created successfully",
-                            content = @Content(examples = @ExampleObject(value = CREDIT_CARD_EXAMPLE_OBJECT))
+                            content = @Content(
+                                    schema = @Schema(implementation = CreditCard.class),
+                                    examples = @ExampleObject(value = CREDIT_CARD_EXAMPLE_OBJECT))
                     ),
                     @ApiResponse(
                             responseCode = "400",
-                            description = "Invalid card details provided"
+                            description = "Invalid card details provided",
+                            content = @Content(
+                                    schema = @Schema(implementation = ApiBadRequestError.class),
+                                    examples = @ExampleObject(value = API_BAD_REQUEST_ERROR_EXAMPLE)
+                            )
                     ),
                     @ApiResponse(
                             responseCode = "500",
@@ -74,7 +79,12 @@ public class CreditCardController {
     @ResponseStatus(CREATED)
     @ResponseBody
     public ResponseEntity<CreditCard> addCard(
-            @io.swagger.v3.oas.annotations.parameters.RequestBody(content = @Content(examples = @ExampleObject(value = CREDIT_CARD_DRAFT_EXAMPLE_OBJECT)))
+            @io.swagger.v3.oas.annotations.parameters.RequestBody(
+                    content = @Content(
+                            schema = @Schema(implementation = CreditCardDraft.class),
+                            examples = @ExampleObject(value = CREDIT_CARD_DRAFT_EXAMPLE_OBJECT)
+                    )
+            )
             @Valid @RequestBody CreditCardDraft creditCardDraft
     ) {
         CreditCard newCreditCard = new CreditCard(

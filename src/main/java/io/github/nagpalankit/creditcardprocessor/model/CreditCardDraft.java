@@ -9,7 +9,7 @@ public record CreditCardDraft(
         String userName,
 
         @NotBlank(message = "Card number is mandatory.")
-        @Size(min = 13, max = 19, message = "Card number value must be between 16 to 19 digits.")
+        @Size(min = 13, max = 19, message = "Card number value must be between 13 to 19 digits.")
         @Pattern(
                 regexp = "^(\\d{13,19})$",
                 message = "Card number must only be numeric and between 13 to 19 digits."

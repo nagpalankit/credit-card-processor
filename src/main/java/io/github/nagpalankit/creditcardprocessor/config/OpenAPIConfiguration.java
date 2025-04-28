@@ -24,7 +24,7 @@ public class OpenAPIConfiguration {
         Info information = new Info()
                 .title("Credit Card Processor API")
                 .version("0.1.0")
-                .description("This API exposes endpoints to manage employees.")
+                .description("This API exposes endpoints to create and fetch cards.")
                 .contact(myContact);
         return new OpenAPI().info(information).servers(List.of(server));
     }

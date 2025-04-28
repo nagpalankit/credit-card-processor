@@ -54,7 +54,6 @@ public class CreditCardController {
                             responseCode = "201",
                             description = "Card created successfully",
                             content = @Content(
-                                    mediaType = "application/json",
                                     examples = @ExampleObject(value = "{ \"id\": 1, \"userName\": \"John Doe\", \"cardNumber\": \"4417123456789113\", \"cardLimit\": 5000, \"remainingBalance\": 0 }")
                             )
                     ),

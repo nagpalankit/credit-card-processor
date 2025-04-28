@@ -46,9 +46,9 @@ class CreditCardControllerTest {
                 .content(new ObjectMapper()
                         .writeValueAsString(
                                 new CreditCardDraft(
-                                        "nagpalankit",
-                                        "4417-1234-5678-9113",
-                                        5000.00
+                                        "John Doe",
+                                        "4417123456789113",
+                                        5000
                                 )
                         )
                 )
@@ -66,9 +66,9 @@ class CreditCardControllerTest {
                 .content(new ObjectMapper()
                         .writeValueAsString(
                                 new CreditCardDraft(
-                                        "nagpalankit",
-                                        "1234-5678-9012",
-                                        5000.00
+                                        "John Doe",
+                                        "123456789012",
+                                        5000
                                 )
                         )
                 )
@@ -86,8 +86,8 @@ class CreditCardControllerTest {
                         .writeValueAsString(
                                 new CreditCardDraft(
                                         "",
-                                        "1234-5678-9012-3456",
-                                        5000.00
+                                        "4417123456789113",
+                                        5000
                                 )
                         )
                 )

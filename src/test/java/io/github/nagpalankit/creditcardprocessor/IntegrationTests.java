@@ -32,9 +32,9 @@ class IntegrationTests {
 
         // Add a card
         CreditCardDraft newCard = new CreditCardDraft(
-                "nagpalankit",
-                "4417-1234-5678-9113",
-                5000.00
+                "Ankit Nagpal",
+                "4417123456789113",
+                5000
         );
         ResponseEntity<CreditCard> addCardResponse = this.restTemplate.postForEntity(apiUrl, newCard, CreditCard.class);
         assertThat(addCardResponse.getStatusCode().value()).isEqualTo(201);
@@ -42,7 +42,7 @@ class IntegrationTests {
         assertThat(addCardResponse.getBody()).isNotNull();
         assertThat(addCardResponse.getBody().getId()).isNotNull();
         assertThat(addCardResponse.getHeaders().getLocation().toString()).isEqualTo(apiUrl + "/" + addCardResponse.getBody().getId());
-        assertThat(addCardResponse.getBody().getUserName()).isEqualTo("nagpalankit");
+        assertThat(addCardResponse.getBody().getUserName()).isEqualTo(newCard.userName());
 
         // Verify one card is present
         ResponseEntity<CreditCard[]> secondGetCardsResponse = this.restTemplate.getForEntity(apiUrl, CreditCard[].class);

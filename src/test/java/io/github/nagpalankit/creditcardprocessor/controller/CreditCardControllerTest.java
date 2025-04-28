@@ -48,7 +48,7 @@ class CreditCardControllerTest {
                                 new CreditCardDraft(
                                         "John Doe",
                                         "4417123456789113",
-                                        5000
+                                        5000L
                                 )
                         )
                 )
@@ -68,7 +68,7 @@ class CreditCardControllerTest {
                                 new CreditCardDraft(
                                         "John Doe",
                                         "123456789012",
-                                        5000
+                                        5000L
                                 )
                         )
                 )
@@ -87,7 +87,7 @@ class CreditCardControllerTest {
                                 new CreditCardDraft(
                                         "",
                                         "4417123456789113",
-                                        5000
+                                        5000L
                                 )
                         )
                 )

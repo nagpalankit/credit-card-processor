@@ -15,10 +15,10 @@ public class CreditCard {
     private Long id;
     private String userName;
     private String cardNumber;
-    private double cardLimit;
-    private double remainingBalance;
+    private Long cardLimit;
+    private Long remainingBalance;
 
-    public CreditCard(String userName, String cardNumber, double cardLimit, double remainingBalance) {
+    public CreditCard(String userName, String cardNumber, Long cardLimit, Long remainingBalance) {
         this.userName = userName;
         this.cardNumber = cardNumber;
         this.cardLimit = cardLimit;
@@ -41,11 +41,11 @@ public class CreditCard {
         return cardNumber;
     }
 
-    public double getCardLimit() {
+    public Long getCardLimit() {
         return cardLimit;
     }
 
-    public double getRemainingBalance() {
+    public Long getRemainingBalance() {
         return remainingBalance;
     }
 }

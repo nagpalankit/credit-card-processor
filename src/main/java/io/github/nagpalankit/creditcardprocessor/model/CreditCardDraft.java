@@ -20,6 +20,6 @@ public record CreditCardDraft(
         @NotNull(message = "Card limit is mandatory.")
         @Min(value = 1000, message = "Minimum card limit should be greater than or equal to 1000.")
         @Max(value = 10000, message = "Maximum card limit should be less than or equal to 10000.")
-        long cardLimit
+        Long cardLimit
 ) {
 }

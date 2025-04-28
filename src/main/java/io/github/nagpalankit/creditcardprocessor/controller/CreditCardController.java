@@ -33,7 +33,7 @@ public class CreditCardController {
                 creditCardDraft.userName(),
                 creditCardDraft.cardNumber(),
                 creditCardDraft.cardLimit(),
-                0.00
+                0L
         );
 
         CreditCard savedCard = creditCardRepository.save(newCreditCard);

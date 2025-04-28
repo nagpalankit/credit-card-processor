@@ -18,9 +18,9 @@ class CreditCardRepositoryTest {
     void creditCardIsSavedAndRetrieved() {
         CreditCard creditCard = new CreditCard(
                 "nagpalankit",
-                "1234-5678-9012-3456",
-                5000.00,
-                0.00);
+                "1234567890123456",
+                5000L,
+                0L);
         creditCardRepository.save(creditCard);
 
         List<CreditCard> savedCreditCards = creditCardRepository.findAll();

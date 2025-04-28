@@ -34,7 +34,7 @@ class IntegrationTests {
         CreditCardDraft newCard = new CreditCardDraft(
                 "Ankit Nagpal",
                 "4417123456789113",
-                5000
+                5000L
         );
         ResponseEntity<CreditCard> addCardResponse = this.restTemplate.postForEntity(apiUrl, newCard, CreditCard.class);
         assertThat(addCardResponse.getStatusCode().value()).isEqualTo(201);
